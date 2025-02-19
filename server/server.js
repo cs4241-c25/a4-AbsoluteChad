@@ -95,8 +95,7 @@ function ensureAuth(req, res, next) {
 }
 
 server.get("/tracker", ensureAuth, (req, res) => {
-    // res.redirect(`${CLIENT_URL}/tracker`)
-    res.redirect("/tracker")
+    res.redirect(`${CLIENT_URL}/tracker`)
 })
 
 server.get("/login", (req, res) => {
