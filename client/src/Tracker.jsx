@@ -244,6 +244,7 @@ function Tracker() {
 
             <div id="logout-section">
                 <a href="http://localhost:3000/logout">
+                {/* <a href="https://a4-absolutechad-server.glitch.me/logout"> */}
                 <button>Log Out</button>
                 </a>
             </div>
