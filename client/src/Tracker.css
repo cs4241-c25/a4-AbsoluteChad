@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+/* -------------------- general -------------------- */
+body {
+    background:rgb(33, 33, 33);
+    color:rgb(250, 250, 250);
+}
+
+label {
+    font-family: "Comic Neue", sans-serif;
+}
+
+h1 {
+    font-family: "Comic Neue", sans-serif;
+    font-size: 2.5vw;
+    font-weight: 500;
+    color: rgba(135, 207, 235, 0.816);
+    margin-top: 5px;
+    padding: 5px 0;
+    text-align: left;
+}
+
+/* --------------- datetime-local entries --------------- */
+#datetime-section {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-bottom: 15px;
+}
+
+.time-entry {
+    font-family: "Comic Neue", sans-serif;
+    font-size: 0.9vw;
+    color: #ffffffde;
+    background-color: rgb(28, 28, 30);
+    box-shadow: 0 0 .5vw rgba(0, 0, 0, 0.5), 0 0 0 .15vw transparent;
+    border-radius: 0.5vw;
+    border: none;
+    outline: none;
+    padding: 0.5vw;
+    transition: .2s;
+    max-width: 300px;
+}
+
+.time-entry:hover {
+    box-shadow: 0 0 0 .15vw rgba(135, 206, 235, 0.2);
+}
+
+.time-entry:focus {
+    box-shadow: 0 0 0 .15vw rgba(135, 206, 235, 1);
+}
+
+/* --------------- checkboxes --------------- */
+#practiced-section {
+    gap: 5px;
+    margin-bottom: 30px;
+}
+
+#practiced-section .practice-checkbox {
+    appearance: none;
+    position: relative;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    margin-top: 4px;
+    margin-right: 5px;
+    border-radius: 4px;
+    background-color: rgba(16, 16, 16, 0.5);
+    box-shadow: rgb(135, 206, 235) 0px 0px 0px 2px;
+    transition: all 0.2s ease;
+}
+  
+#practiced-section .practice-checkbox:checked {
+    background-color: rgba(135, 206, 235, 0.7);
+    box-shadow: rgb(135, 206, 235) 0px 0px 0px 2px;
+}
+  
+/* construct checkmark by creating L and rotating */
+#practiced-section .practice-checkbox:checked::after {
+    content: "";
+    position: absolute;
+    left: 0.57em;
+    top: 0.4em;
+    width: 0.25em;
+    height: 0.5em;
+    border: solid white;
+    border-width: 0 0.15em 0.15em 0;
+    transform: rotate(45deg);
+    transition: all 200ms ease-in-out;
+}
+
+/* --------------- details textarea --------------- */
+
+#details-section {
+    margin-bottom: 20px;
+}
+
+.input {
+    font-family: "Comic Neue", sans-serif;
+    font-size: 0.9vw;
+    color: #ffffffde;
+    background-color: rgb(28,28,30);
+    box-shadow: 0 0 .5vw rgba(0,0,0,0.5), 0 0 0 .15vw transparent;
+    border-radius: 0.5vw;
+    border: none;
+    outline: none;
+    padding: 0.5vw;
+    max-width: 500px;
+    transition: .2s;
+}
+
+.input:hover {
+    box-shadow: 0 0 0 .15vw rgba(135, 206, 235, 0.2);
+}
+
+.input:focus {
+    box-shadow: 0 0 0 .15vw rgba(135, 206, 235, 1);;
+}
+
+/* --------------- submit/accept edit button --------------- */
+button {
+    font-family: "Comic Neue", sans-serif;
+    font-size: 1.2vw;
+    color:rgb(250, 250, 250);
+    background-color: rgb(28, 28, 30);
+    border: none;
+    border-radius: 0.5vw;
+    padding: 0.7vw 1.5vw;
+    cursor: pointer;
+    box-shadow: 0 0 .5vw rgba(0, 0, 0, 0.5);
+    transition: all 200ms ease;
+}
+
+button:hover {
+    background-color: rgba(135, 207, 235, 0.945);
+    box-shadow: 0 0 0.3vw rgba(135, 206, 235, 0.6);
+}
+
+button:active {
+    background-color: rgba(135, 207, 235, 0.522);
+    box-shadow: 0 0 0.3vw rgba(135, 206, 235, 0.9);
+}
+
+/* --------------- horizontal rule --------------- */
+hr {
+    border: 1.5px solid rgba(135, 207, 235, 0.589);
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+/* --------------- table --------------- */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    font-family: "Comic Neue", sans-serif;
+    border: 2px solid rgba(135, 206, 235, 0.6);
+    color: rgb(250, 250, 250);
+}
+
+th, td {
+    padding: 12px 20px;
+    text-align: left;
+    border-bottom: 1px solid rgba(135, 206, 235, 0.6);
+}
+
+th {
+    background-color: rgb(33, 33, 33);
+    font-size: 1vw;
+    color: rgb(135, 206, 235);
+}
+
+td {
+    background-color: rgb(28, 28, 30);
+    font-size: 0.9vw;
+    color: #ffffffde;
+}
+
+table button {
+    font-family: "Comic Neue", sans-serif;
+    font-size: 1vw;
+    color:rgb(250, 250, 250);
+    background-color: rgba(53, 53, 54, 0.5);
+    border: none;
+    border-radius: 0.5vw;
+    padding: 0.7vw 0.8vw;
+    cursor: pointer;
+    box-shadow: 0 0 .5vw rgba(0, 0, 0, 0.5);
+    transition: all 100ms ease;
+}
+
+table button:hover {
+    background-color: rgba(135, 207, 235, 0.825);
+    box-shadow: 0 0 0.3vw rgba(135, 206, 235, 0.6);
+}
+
+table button:active {
+    background-color: rgba(135, 207, 235, 0.522);
+    box-shadow: 0 0 0.3vw rgba(135, 206, 235, 0.9);
+}
