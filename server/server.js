@@ -86,7 +86,6 @@ server.get("/auth/github/callback",
 server.get("/auth/github", passport.authenticate("github", { scope: ["user:email"] }))
 
 function ensureAuth(req, res, next) {
-    console.log(req.user)
     if (req.isAuthenticated()) {
         next()
     } else {
@@ -113,9 +112,7 @@ server.get("/logout", (req, res) => {
 
 // ------------------------ handle GET requests ------------------------ 
 server.get("/api/all-data", ensureAuth, async (req, res) => {
-    console.log("test")
-    res.header("Access-Control-Allow-Origin", 'http://localhost:5173');
-    const userdata = await db.find({ username: req.user.username }).toArray()
+    const userdata = await logs.find({ username: req.user.username }).toArray()
     res.json(userdata)
 })
 
@@ -124,11 +121,11 @@ server.post("/api/submit", ensureAuth, (req, res) => {
     handleSubmit(req, res);
 });
 
-server.post("/api/delete", (req, res) => {
+server.post("/api/delete", ensureAuth, (req, res) => {
     handleDelete(req, res);
 });
 
-server.post("/api/edit", (req, res) => {
+server.post("/api/edit", ensureAuth, (req, res) => {
     handleEdit(req, res);
 });
 

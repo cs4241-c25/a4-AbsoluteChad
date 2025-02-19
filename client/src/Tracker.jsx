@@ -14,16 +14,10 @@ function Tracker() {
     const [logs, setLogs] = useState([])
     const [editingId, setEditingId] = useState(null)
 
-    // get initial data on component mount
+    // get initial data when page loads
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch("http://localhost:3000/api/all-data", {
-                method: "GET",
-                withCredentials: true,
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
+            const response = await fetch("/api/all-data")
             const data = await response.json()
             setLogs(data)
         }
@@ -32,7 +26,7 @@ function Tracker() {
 
     const handlePracticeChange = (event) => {
         const { name, checked } = event.target
-            setPractices((prevPractices) => ({
+        setPractices((prevPractices) => ({
             ...prevPractices,
             [name]: checked,
         }))
@@ -52,7 +46,7 @@ function Tracker() {
             json.practice = checkedPractices
         }
 
-        const response = await fetch("http://localhost:3000/api/submit", {
+        const response = await fetch("/api/submit", {
             method: "POST",
             body: JSON.stringify(json),
         })
@@ -68,22 +62,62 @@ function Tracker() {
 
     // edit existing row
     const editRow = (rowId, rowData) => {
-        // TODO
+        setEditingId(rowId)
+        setStartTime(rowData.start)
+        setEndTime(rowData.end)
+        setDetails(rowData.details)
+
+        // uncheck all checkboxes
+        const newPractices = { scales: false, etudes: false, technique: false, mainpiece: false }
+        if (rowData.practice) {
+            rowData.practice.forEach((practice) => {
+                newPractices[practice.toLowerCase()] = true
+            })
+        }
+
+        // check the according checkboxess
+        setPractices(newPractices)
+
+        // change submit button to "Update"
+        document.querySelector("button#submit").textContent = "Update"
     }
 
     // update row data
     const updateRow = async (event) => {
-        // TODO
+        event.preventDefault()
+        const json = {
+            _id: editingId,
+            start: startTime,
+            end: endTime,
+            details: details,
+            practice: []
+        }
+        
+        // process checkboxes
+        const checkedPractices = Object.keys(practices).filter((key) => practices[key])
+        if (checkedPractices.length > 0) {
+            json.practice = checkedPractices
+        }
+        
+        const response = await fetch("/api/edit", {
+            method: "POST",
+            body: JSON.stringify(json),
+        })
+
+        const updatedData = await response.json()
+        updateTableRow(updatedData)
     }
 
     // update row in the table
     const updateTableRow = (updatedData) => {
+        // update this row
         setLogs((prevLogs) =>
             prevLogs.map((log) =>
-                log.ID === updatedData.ID ? { ...log, ...updatedData } : log
+                log._id === updatedData._id ? { ...log, ...updatedData } : log
             )
         )
 
+        // clear all the fields
         setEditingId(null)
         setStartTime("")
         setEndTime("")
@@ -95,17 +129,17 @@ function Tracker() {
             mainpiece: false,
         })
 
+        // change button text back
         document.querySelector("button#submit").textContent = "Submit"
     }
 
     // delete row
     const deleteRow = async (rowId) => {
-        await fetch("http://localhost:3000/api/delete", {
+        await fetch("/api/delete", {
             method: "POST",
-            body: JSON.stringify({ ID: rowId }),
+            body: JSON.stringify({ _id: rowId }),
         })
-
-        setLogs((prevLogs) => prevLogs.filter((log) => log.ID !== rowId))
+        setLogs((prevLogs) => prevLogs.filter((log) => log._id !== rowId))
     }
 
     return (
@@ -193,18 +227,18 @@ function Tracker() {
                 </thead>
 
                 <tbody>
-                {logs.map((log) => (
-                    <tr key={log.ID}>
-                        <td>{new Date(log.start).toLocaleString()}</td>
-                        <td>{`${log.hours} hours ${log.minutes} minutes`}</td>
-                        <td>{log.practice ? log.practice.join(", ") : ""}</td>
-                        <td>{log.details}</td>
-                        <td>
-                            <button onClick={() => editRow(log.ID, log)}>Edit</button>
-                            <button onClick={() => deleteRow(log.ID)}>Delete</button>
-                        </td>
-                    </tr>
-                ))}
+                    {logs.map((log) => (
+                        <tr key={log._id}>
+                            <td>{new Date(log.start).toLocaleString()}</td>
+                            <td>{`${log.hours} hours ${log.minutes} minutes`}</td>
+                            <td>{log.practice ? log.practice.join(", ") : ""}</td>
+                            <td>{log.details}</td>
+                            <td>
+                                <button onClick={() => editRow(log._id, log)}>Edit</button>
+                                <button onClick={() => deleteRow(log._id)}>Delete</button>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
 
